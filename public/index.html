@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Air Freight Quotation & Operations Manager | ORBEM Solutions</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js -->
+  <script href="https://cdn.jsdelivr.net/npm/chart.js" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- CSS Styling -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- App Shell Container -->
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <i class="fa-solid fa-plane-departs brand-icon"></i>
+        <div class="brand-text">
+          <h2>ORBEM Solutions</h2>
+          <span>Air Cargo Systems</span>
+        </div>
+      </div>
+      
+      <nav class="sidebar-menu">
+        <a href="#" class="menu-item active" data-tab="dashboard">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" class="menu-item" data-tab="quotations">
+          <i class="fa-solid fa-file-invoice-dollar"></i>
+          <span>Quotations</span>
+        </a>
+        <a href="#" class="menu-item" data-tab="bookings">
+          <i class="fa-solid fa-truck-ramp-box"></i>
+          <span>Shipment Tracking</span>
+        </a>
+        <a href="#" class="menu-item" data-tab="warehouse">
+          <i class="fa-solid fa-warehouse"></i>
+          <span>Warehouse Storage</span>
+        </a>
+        <a href="#" class="menu-item" data-tab="pickup">
+          <i class="fa-solid fa-calendar-days"></i>
+          <span>Pickup Scheduler</span>
+        </a>
+        <a href="#" class="menu-item" data-tab="billing">
+          <i class="fa-solid fa-credit-card"></i>
+          <span>Billing & Invoices</span>
+        </a>
+        <a href="#" class="menu-item" data-tab="claims">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Disputes & Claims</span>
+        </a>
+        <a href="#" class="menu-item" data-tab="ai-suite">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>AI Logistics Suite</span>
+        </a>
+        <a href="#" class="menu-item" data-tab="notifications">
+          <i class="fa-solid fa-envelope-open-text"></i>
+          <span>Notification Logs</span>
+          <span class="badge badge-info" id="notification-count">0</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <i class="fa-solid fa-circle-user avatar"></i>
+          <div class="profile-info">
+            <span class="user-name">Guest Exporter</span>
+            <span class="user-role-label">Customer View</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Content -->
+    <main class="main-content">
+      
+      <!-- Top Header Bar -->
+      <header class="top-header">
+        <div class="header-title">
+          <h1 id="section-title">Operations Dashboard</h1>
+          <p id="section-subtitle">Real-time air freight insights & quotation flow control</p>
+        </div>
+        
+        <div class="header-actions">
+          <div class="role-selector-wrapper">
+            <label for="role-select"><i class="fa-solid fa-users-gear"></i> Simulate Role:</label>
+            <select id="role-select" class="form-control role-select">
+              <option value="Customer">Customer / Cargo Exporter</option>
+              <option value="Admin" selected>Air Cargo Admin</option>
+              <option value="Operations">Operations Executive</option>
+              <option value="Accounts">Accounts Specialist</option>
+              <option value="Warehouse">Warehouse Supervisor</option>
+              <option value="Agent">Logistics Partner / Agent</option>
+            </select>
+          </div>
+          
+          <button class="btn btn-primary btn-icon" id="quick-quote-btn">
+            <i class="fa-solid fa-plus"></i>
+            <span>New Quote Request</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- VIEW: DASHBOARD OVERVIEW -->
+      <section id="view-dashboard" class="tab-view active">
+        <!-- Stats Summary Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-content">
+              <span class="stat-label">Total Quotations</span>
+              <h3 class="stat-value" id="stat-total-quotes">-</h3>
+            </div>
+            <div class="stat-icon icon-blue">
+              <i class="fa-solid fa-file-lines"></i>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-content">
+              <span class="stat-label">Pending Review</span>
+              <h3 class="stat-value" id="stat-pending-quotes">-</h3>
+            </div>
+            <div class="stat-icon icon-yellow">
+              <i class="fa-solid fa-hourglass-half"></i>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-content">
+              <span class="stat-label">Active Shipments</span>
+              <h3 class="stat-value" id="stat-active-bookings">-</h3>
+            </div>
+            <div class="stat-icon icon-green">
+              <i class="fa-solid fa-plane-cargo"></i>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-content">
+              <span class="stat-label">Total Revenue</span>
+              <h3 class="stat-value" id="stat-total-revenue">$0.00</h3>
+            </div>
+            <div class="stat-icon icon-purple">
+              <i class="fa-solid fa-sack-dollar"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Charts & Activities -->
+        <div class="dashboard-layout">
+          <!-- Charts Section -->
+          <div class="chart-container-card">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-chart-simple"></i> Cargo Distribution & Volume</h3>
+            </div>
+            <div class="chart-body">
+              <canvas id="cargoChart"></canvas>
+            </div>
+          </div>
+          
+          <!-- Recent Activity Log Feed -->
+          <div class="activity-container-card">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-clock-rotate-left"></i> Workflow Action History</h3>
+            </div>
+            <div class="activity-feed-body" id="dashboard-activity-feed">
+              <div class="empty-state">Loading activities...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Quotations List inside Dashboard -->
+        <div class="table-container-card">
+          <div class="card-header flex-header">
+            <h3><i class="fa-solid fa-list-check"></i> High Priority Quotation Requests</h3>
+            <button class="btn btn-outline btn-sm view-all-quotes-btn">View All</button>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Ref Number</th>
+                  <th>Customer</th>
+                  <th>Route</th>
+                  <th>Cargo Category</th>
+                  <th>Chargeable Wt.</th>
+                  <th>Total Cost</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="dashboard-recent-quotes">
+                <tr>
+                  <td colspan="8" class="text-center">Loading quotations...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: QUOTATIONS MANAGER -->
+      <section id="view-quotations" class="tab-view">
+        <div class="view-header-bar">
+          <div class="filter-tabs" id="quote-filters">
+            <button class="filter-tab active" data-status="all">All Quotes</button>
+            <button class="filter-tab" data-status="Pending Admin Review">Pending Review</button>
+            <button class="filter-tab" data-status="Sent to Customer">Sent to Exporter</button>
+            <button class="filter-tab" data-status="Approved">Approved</button>
+            <button class="filter-tab" data-status="Revision Requested">Revision Required</button>
+          </div>
+          
+          <button class="btn btn-primary btn-sm" id="create-quote-trigger-btn">
+            <i class="fa-solid fa-circle-plus"></i> New Quotation
+          </button>
+        </div>
+
+        <div class="table-container-card">
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Ref Number</th>
+                  <th>Customer Name</th>
+                  <th>Route</th>
+                  <th>Cargo Type</th>
+                  <th>Urgency</th>
+                  <th>Chargeable Wt.</th>
+                  <th>Cost Estimation</th>
+                  <th>Status</th>
+                  <th>Created Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="quotation-list-body">
+                <tr>
+                  <td colspan="10" class="text-center">Loading quotations...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: SHIPMENT TRACKING & MILESTONES -->
+      <section id="view-bookings" class="tab-view">
+        <div class="table-container-card">
+          <div class="card-header">
+            <h3><i class="fa-solid fa-compass-drafting"></i> Active Cargo Bookings & Tracking Milestones</h3>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>AWB Number</th>
+                  <th>Quote Ref</th>
+                  <th>Customer</th>
+                  <th>Route</th>
+                  <th>Carrier & Flight</th>
+                  <th>Estimated Delivery</th>
+                  <th>Current Station</th>
+                  <th>Tracking Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="booking-list-body">
+                <tr>
+                  <td colspan="9" class="text-center">No active bookings found. Approve a quotation to create one.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: WAREHOUSE STORAGE LAYOUT -->
+      <section id="view-warehouse" class="tab-view">
+        <div class="warehouse-dashboard">
+          <!-- Left side layout map -->
+          <div class="warehouse-layout-panel">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-map-location-dot"></i> Warehouse Slot Allocation Map</h3>
+            </div>
+            
+            <div class="warehouse-grid">
+              <div class="warehouse-zone-box cold-chain">
+                <h4>Zone A: Cold-Chain Storage</h4>
+                <div class="shelves-grid" id="zone-cold-chain-slots">
+                  <!-- Slots generated dynamically -->
+                </div>
+              </div>
+              
+              <div class="warehouse-zone-box general">
+                <h4>Zone B: General Dry Cargo</h4>
+                <div class="shelves-grid" id="zone-general-slots">
+                  <!-- Slots generated dynamically -->
+                </div>
+              </div>
+
+              <div class="warehouse-zone-box high-security">
+                <h4>Zone C: High-Security / Valuable</h4>
+                <div class="shelves-grid" id="zone-secure-slots">
+                  <!-- Slots generated dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right side inventory logs list -->
+          <div class="warehouse-inventory-panel">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-boxes-stacked"></i> Stored Cargo Inventory</h3>
+            </div>
+            <div class="inventory-list-wrapper">
+              <table class="data-table data-table-compact">
+                <thead>
+                  <tr>
+                    <th>AWB Number</th>
+                    <th>Customer</th>
+                    <th>Zone</th>
+                    <th>Aisle/Shelf</th>
+                    <th>Temp</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="warehouse-inventory-body">
+                  <tr>
+                    <td colspan="7" class="text-center">No cargo currently logged in inventory.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: PICKUP SCHEDULER -->
+      <section id="view-pickup" class="tab-view">
+        <div class="pickup-layout">
+          <!-- Scheduler Form -->
+          <div class="pickup-form-card">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-truck-pickup"></i> Schedule Cargo Pickup / Delivery</h3>
+            </div>
+            <form id="pickup-schedule-form" class="form-body">
+              <div class="form-group">
+                <label for="pickup-booking-select">Select Airway Bill (AWB) Booking:</label>
+                <select id="pickup-booking-select" class="form-control" required>
+                  <option value="">-- Choose Active Booking --</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-6">
+                  <label for="pickup-city">Pickup City:</label>
+                  <input type="text" id="pickup-city" class="form-control" placeholder="e.g. Bangalore" required>
+                </div>
+                <div class="form-group col-6">
+                  <label for="pickup-date">Schedule Date:</label>
+                  <input type="date" id="pickup-date" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="pickup-address">Full Address for Pickup / Airport Handover:</label>
+                <textarea id="pickup-address" class="form-control" rows="3" placeholder="Warehouse, terminal or factory location address" required></textarea>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-6">
+                  <label for="pickup-driver">Driver Name:</label>
+                  <input type="text" id="pickup-driver" class="form-control" placeholder="e.g. Rajesh Kumar" required>
+                </div>
+                <div class="form-group col-6">
+                  <label for="pickup-vehicle">Vehicle Plate Number:</label>
+                  <input type="text" id="pickup-vehicle" class="form-control" placeholder="e.g. KA-03-HA-8812" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="pickup-phone">Driver Contact Phone:</label>
+                <input type="text" id="pickup-phone" class="form-control" placeholder="e.g. +91 9876543210" required>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block">
+                <i class="fa-solid fa-paper-plane"></i> Save Schedule
+              </button>
+            </form>
+          </div>
+
+          <!-- Schedules List -->
+          <div class="pickup-list-card">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-list-ol"></i> Dispatched / Scheduled Airport Coordination</h3>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>AWB Number</th>
+                    <th>Customer</th>
+                    <th>Route</th>
+                    <th>Schedule Date</th>
+                    <th>Driver & Vehicle</th>
+                    <th>City / Location</th>
+                    <th>Coordination Status</th>
+                  </tr>
+                </thead>
+                <tbody id="pickup-list-body">
+                  <tr>
+                    <td colspan="7" class="text-center">No coordination schedules created.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: BILLING & INVOICING -->
+      <section id="view-billing" class="tab-view">
+        <div class="table-container-card">
+          <div class="card-header">
+            <h3><i class="fa-solid fa-receipt"></i> Exportable Invoices & Accounting Records</h3>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Invoice Number</th>
+                  <th>AWB Number</th>
+                  <th>Exporter Client</th>
+                  <th>Origin -> Dest</th>
+                  <th>Amount</th>
+                  <th>Amount Paid</th>
+                  <th>Outstanding Balance</th>
+                  <th>Due Date</th>
+                  <th>Billing Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="billing-list-body">
+                <tr>
+                  <td colspan="10" class="text-center">No billing transactions available.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: CLAIMS & DISPUTES -->
+      <section id="view-claims" class="tab-view">
+        <div class="claims-layout">
+          <!-- Submit claim -->
+          <div class="claim-form-card">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-file-shield"></i> File Cargo Insurance Claim or Complaint</h3>
+            </div>
+            <form id="claim-submission-form" class="form-body">
+              <div class="form-group">
+                <label for="claim-booking-select">Choose Related AWB Booking:</label>
+                <select id="claim-booking-select" class="form-control" required>
+                  <option value="">-- Select Booking --</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-6">
+                  <label for="claim-claimant">Claimant / Exporter Name:</label>
+                  <input type="text" id="claim-claimant" class="form-control" required>
+                </div>
+                <div class="form-group col-6">
+                  <label for="claim-type">Dispute Reason:</label>
+                  <select id="claim-type" class="form-control" required>
+                    <option value="Damage">Cargo Damage / Spillage</option>
+                    <option value="Loss">Cargo Loss / Theft</option>
+                    <option value="Delay">Severe Delivery Delay / Fresh Perishable Spoiled</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-6">
+                  <label for="claim-cargo-val">Declared Cargo Value ($):</label>
+                  <input type="number" step="0.01" id="claim-cargo-val" class="form-control" placeholder="e.g. 15000" required>
+                </div>
+                <div class="form-group col-6">
+                  <label for="claim-amount">Disputed Claim Amount ($):</label>
+                  <input type="number" step="0.01" id="claim-amount" class="form-control" placeholder="e.g. 5000" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="claim-desc">Incident / Damage Cargo Description:</label>
+                <textarea id="claim-desc" class="form-control" rows="4" placeholder="Detail any package markings, breakage details, delay notes, or temperature log anomalies..." required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-warning btn-block">
+                <i class="fa-solid fa-shield-virus"></i> File Dispute Claim
+              </button>
+            </form>
+          </div>
+
+          <!-- Claims list -->
+          <div class="claim-list-card">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-list-check"></i> Claims Registry & Adjustments</h3>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Claim ID</th>
+                    <th>AWB Number</th>
+                    <th>Disputed Route</th>
+                    <th>Claimant</th>
+                    <th>Dispute Type</th>
+                    <th>Claim Value</th>
+                    <th>Status</th>
+                    <th>Created On</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="claims-list-body">
+                  <tr>
+                    <td colspan="9" class="text-center">No insurance claims filed.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: AI LOGISTICS SUITE -->
+      <section id="view-ai-suite" class="tab-view">
+        <div class="ai-suite-grid">
+          
+          <!-- Box 1: Cargo Cleaner -->
+          <div class="ai-card">
+            <div class="ai-card-header">
+              <i class="fa-solid fa-wand-magic-sparkles ai-header-icon"></i>
+              <div>
+                <h4>Cargo Description Cleaner & Hazard Checker</h4>
+                <p>Ensures compliance with IATA Dangerous Goods regulations and temperature classes</p>
+              </div>
+            </div>
+            <div class="ai-card-body">
+              <div class="form-group">
+                <label for="ai-raw-desc">Enter raw shipment details:</label>
+                <input type="text" id="ai-raw-desc" class="form-control" placeholder="e.g. cold boxes of vaccines for clinic or lithium laptop batteries">
+              </div>
+              <button class="btn btn-secondary btn-sm" id="ai-clean-btn">Optimize Cargo Info</button>
+              
+              <div class="ai-result-panel hidden" id="ai-clean-results">
+                <h5>Optimized Shipping Specifications</h5>
+                <div class="result-item"><strong>Clean Category:</strong> <span id="ai-res-clean-desc">-</span></div>
+                <div class="result-item"><strong>Slab Category:</strong> <span id="ai-res-slab-cat" class="badge badge-info">-</span></div>
+                <div class="result-item"><strong>Hazardous Class Alert:</strong> <span id="ai-res-hazard" class="badge badge-danger">-</span></div>
+                <div class="result-advice text-warning" id="ai-res-advice">-</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Box 2: Route Suggester -->
+          <div class="ai-card">
+            <div class="ai-card-header">
+              <i class="fa-solid fa-circle-nodes ai-header-icon"></i>
+              <div>
+                <h4>AI Route Suggestion & Customs Checklists</h4>
+                <p>Analyzes legs, air connections, and export custom rules for origin/destination</p>
+              </div>
+            </div>
+            <div class="ai-card-body">
+              <div class="form-row">
+                <div class="form-group col-4">
+                  <label for="ai-route-origin">Origin:</label>
+                  <select id="ai-route-origin" class="form-control origin-airport-select"></select>
+                </div>
+                <div class="form-group col-4">
+                  <label for="ai-route-dest">Destination:</label>
+                  <select id="ai-route-dest" class="form-control dest-airport-select"></select>
+                </div>
+                <div class="form-group col-4">
+                  <label for="ai-route-cargo-type">Category:</label>
+                  <select id="ai-route-cargo-type" class="form-control">
+                    <option value="General">General</option>
+                    <option value="Perishable">Perishable</option>
+                    <option value="Hazardous">Hazardous</option>
+                    <option value="Valuable">Valuable</option>
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="ai-route-btn">Fetch Routing Matrix</button>
+
+              <div class="ai-result-panel hidden" id="ai-route-results">
+                <h5>Leg Flight Operations Suggestions</h5>
+                <ul class="route-suggestions-list" id="ai-res-routes">
+                  <!-- Generated dynamic list of route transshipment alternatives -->
+                </ul>
+                <h5>IATA Customs Document Checklists</h5>
+                <div class="checklist-grid" id="ai-res-checklist">
+                  <!-- Checked documents list -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Box 3: Airline Slab Rates Comparison -->
+          <div class="ai-card">
+            <div class="ai-card-header">
+              <i class="fa-solid fa-code-compare ai-header-icon"></i>
+              <div>
+                <h4>Airline Rate Comparison Engine</h4>
+                <p>Compares live base price matrices from leading airlines</p>
+              </div>
+            </div>
+            <div class="ai-card-body">
+              <div class="form-row">
+                <div class="form-group col-4">
+                  <label for="ai-rate-origin">Origin:</label>
+                  <select id="ai-rate-origin" class="form-control origin-airport-select"></select>
+                </div>
+                <div class="form-group col-4">
+                  <label for="ai-rate-dest">Destination:</label>
+                  <select id="ai-rate-dest" class="form-control dest-airport-select"></select>
+                </div>
+                <div class="form-group col-4">
+                  <label for="ai-rate-wt">Weight (kg):</label>
+                  <input type="number" id="ai-rate-wt" class="form-control" value="120" required>
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="ai-rate-btn">Compare Market Rates</button>
+
+              <div class="ai-result-panel hidden" id="ai-rate-results">
+                <h5>Market Rate Sheet Alternatives</h5>
+                <table class="data-table data-table-compact">
+                  <thead>
+                    <tr>
+                      <th>Airline</th>
+                      <th>Base Rate/kg</th>
+                      <th>Total Cost</th>
+                      <th>Est Transit</th>
+                      <th>Score</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ai-res-rates-tbody">
+                    <!-- Dynamic entries -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- VIEW: NOTIFICATION LOGS -->
+      <section id="view-notifications" class="tab-view">
+        <div class="table-container-card">
+          <div class="card-header flex-header">
+            <h3><i class="fa-solid fa-server"></i> Dispatch Logs - Simulated Customer Communication Channels</h3>
+            <span class="text-muted text-sm"><i class="fa-solid fa-circle-dot text-green pulse"></i> Listening for updates</span>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Channel</th>
+                  <th>Recipient Address</th>
+                  <th>Outgoing Message Draft</th>
+                  <th>Delivery Status</th>
+                </tr>
+              </thead>
+              <tbody id="notification-logs-body">
+                <tr>
+                  <td colspan="5" class="text-center">No alerts triggered yet. Adjust quotation states to generate notifications.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL: CREATE NEW QUOTE -->
+  <div class="modal" id="quote-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-circle-plus"></i> Request New Air Freight Quotation</h3>
+        <span class="close-btn" id="close-quote-modal">&times;</span>
+      </div>
+      <form id="new-quote-form">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="quote-customer">Customer / Exporter Name:</label>
+              <input type="text" id="quote-customer" class="form-control" placeholder="e.g. Apple Supply Chain Co." required>
+            </div>
+            <div class="form-group col-6">
+              <label for="quote-urgency">Delivery Urgency:</label>
+              <select id="quote-urgency" class="form-control" required>
+                <option value="Standard">Standard (Regular flight scheduling)</option>
+                <option value="Express">Express (Next Available flight, +20%)</option>
+                <option value="Critical">Critical (First flight out, Priority Clearance, +50%)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="quote-origin">Origin Airport:</label>
+              <select id="quote-origin" class="form-control origin-airport-select" required></select>
+            </div>
+            <div class="form-group col-6">
+              <label for="quote-dest">Destination Airport:</label>
+              <select id="quote-dest" class="form-control dest-airport-select" required></select>
+            </div>
+          </div>
+
+          <div class="divider">Cargo Physical Dimension (Metric Weight Billing)</div>
+
+          <div class="form-row">
+            <div class="form-group col-4">
+              <label for="quote-length">Length (cm):</label>
+              <input type="number" id="quote-length" class="form-control" value="100" required>
+            </div>
+            <div class="form-group col-4">
+              <label for="quote-width">Width (cm):</label>
+              <input type="number" id="quote-width" class="form-control" value="80" required>
+            </div>
+            <div class="form-group col-4">
+              <label for="quote-height">Height (cm):</label>
+              <input type="number" id="quote-height" class="form-control" value="60" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="quote-count">Total Cartons / Packages:</label>
+              <input type="number" id="quote-count" class="form-control" value="1" required>
+            </div>
+            <div class="form-group col-6">
+              <label for="quote-weight">Actual Weight (kg):</label>
+              <input type="number" step="0.1" id="quote-weight" class="form-control" value="50" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="quote-desc-input">Cargo Description & Category Analyzer:</label>
+            <div class="input-with-button">
+              <input type="text" id="quote-desc-input" class="form-control" placeholder="e.g. perishable organic vaccines in cold storage dry ice" required>
+              <button type="button" class="btn btn-secondary" id="quote-desc-analyze-btn">
+                <i class="fa-solid fa-brain"></i> Analyze Category
+              </button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="quote-cargo-type">Identified Cargo Type:</label>
+              <select id="quote-cargo-type" class="form-control" required>
+                <option value="General">General Dry Cargo</option>
+                <option value="Perishable">Perishable Items</option>
+                <option value="Hazardous">Hazardous Materials (DGR)</option>
+                <option value="Valuable">Valuable Items</option>
+                <option value="Express">Courier Express</option>
+              </select>
+            </div>
+            <div class="form-group col-6">
+              <label>Volumetric Checker Status:</label>
+              <div class="chargeable-weight-display">
+                Volumetric Weight: <span id="modal-volumetric-wt">0.0</span> kg<br>
+                Chargeable Billing Wt: <strong id="modal-chargeable-wt">0.0</strong> kg
+              </div>
+            </div>
+          </div>
+
+          <div class="ai-optimization-banner hidden" id="modal-ai-banner">
+            <i class="fa-solid fa-circle-exclamation text-yellow"></i>
+            <span id="modal-ai-banner-text">Cargo classified successfully.</span>
+          </div>
+
+          <!-- Dynamic Billing Estimation Section -->
+          <div class="billing-estimation-card">
+            <h4>Live Price Quote Estimator</h4>
+            <div class="est-grid">
+              <div>Base Rate: <span id="est-base-rate">$0.00/kg</span></div>
+              <div>Base Cost: <span id="est-base-cost">$0.00</span></div>
+              <div>Urgency Fees: <span id="est-urgency-cost">$0.00</span></div>
+              <div>Handling Fees: <span id="est-handling-cost">$0.00</span></div>
+            </div>
+            <div class="est-total-cost">
+              Total Cargo Quotation: <strong id="est-total-cost">$0.00</strong>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="cancel-quote-modal-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="save-quote-btn">Submit Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: VIEW QUOTE DETAILS & WORKFLOW CONTROL -->
+  <div class="modal" id="quote-details-modal">
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h3>Quotation Review & Control Sheet: <span id="details-ref-num">-</span></h3>
+        <span class="close-btn" id="close-details-modal">&times;</span>
+      </div>
+      <div class="modal-body">
+        
+        <div class="details-split-layout">
+          <!-- Column 1: Core Details Form -->
+          <div class="details-left">
+            <table class="details-table">
+              <tr>
+                <th>Customer / Exporter</th>
+                <td id="details-customer-name">-</td>
+              </tr>
+              <tr>
+                <th>Routing Path</th>
+                <td><span id="details-origin">-</span> <i class="fa-solid fa-arrow-right-long"></i> <span id="details-destination">-</span></td>
+              </tr>
+              <tr>
+                <th>Cargo Details</th>
+                <td><span id="details-cargo-type" class="badge badge-info">-</span> | Urgency: <span id="details-urgency" class="badge badge-warning">-</span></td>
+              </tr>
+              <tr>
+                <th>Dimensions & Count</th>
+                <td><span id="details-pkg-count">-</span> Cartons | Size: <span id="details-dim">-</span> cm</td>
+              </tr>
+              <tr>
+                <th>Weight Summary</th>
+                <td>Actual: <span id="details-act-wt">-</span> kg | Volumetric: <span id="details-vol-wt">-</span> kg | Chargeable: <strong><span id="details-chg-wt">-</span> kg</strong></td>
+              </tr>
+            </table>
+
+            <!-- Dynamic Pricing Adjustments (Visible to Admin/Accounts) -->
+            <div class="admin-pricing-adjustment-box" id="admin-price-editor">
+              <h4>Quotation Price Worksheet</h4>
+              <div class="form-row">
+                <div class="form-group col-6">
+                  <label for="edit-base-rate">Base Rate per kg ($):</label>
+                  <input type="number" step="0.01" id="edit-base-rate" class="form-control">
+                </div>
+                <div class="form-group col-6">
+                  <label for="edit-handling-fee">Handling / DGR Fee ($):</label>
+                  <input type="number" step="0.01" id="edit-handling-fee" class="form-control">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-6">
+                  <label for="edit-urgency-surcharge">Urgency Surcharge ($):</label>
+                  <input type="number" step="0.01" id="edit-urgency-surcharge" class="form-control">
+                </div>
+                <div class="form-group col-6">
+                  <label>Final Adjusted Quote:</label>
+                  <div class="adjusted-cost-display">$<span id="edit-total-cost">-</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="customer-feedback-section hidden" id="quote-feedback-viewer">
+              <h4>Reason for Rejection / Revision Details</h4>
+              <p class="feedback-text" id="details-feedback-text">-</p>
+            </div>
+            
+            <div class="customer-feedback-editor-box hidden" id="customer-feedback-input-box">
+              <label for="customer-feedback-comments">Specify Revision Requests / Rejection Reasons:</label>
+              <textarea id="customer-feedback-comments" class="form-control" rows="2" placeholder="e.g. competitive quote of $5.00/kg received from other carrier, please reduce base price."></textarea>
+            </div>
+          </div>
+
+          <!-- Column 2: Audit Timeline -->
+          <div class="details-right">
+            <h4>Workflow Audit Log</h4>
+            <div class="timeline-feed" id="details-timeline-feed">
+              <!-- Actions list -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer flex-footer">
+        <button class="btn btn-outline" id="btn-export-quote"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+        
+        <div class="workflow-action-buttons">
+          <!-- Action Buttons rendered contextually based on Active Role & Quote Status -->
+          <div id="admin-actions" class="action-set">
+            <button class="btn btn-secondary" id="btn-quote-revise-admin">Apply Revisions</button>
+            <button class="btn btn-primary" id="btn-quote-send-exporter">Send Quote to Exporter</button>
+          </div>
+          
+          <div id="customer-actions" class="action-set hidden">
+            <button class="btn btn-danger" id="btn-quote-reject">Reject</button>
+            <button class="btn btn-warning" id="btn-quote-request-rev">Request Price Revision</button>
+            <button class="btn btn-success" id="btn-quote-approve">Approve Quote</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: SHIPMENT TRACKING OPERATIONS / MILESTONES -->
+  <div class="modal" id="booking-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Dispatch Milestone Controller: <span id="booking-awb-num">-</span></h3>
+        <span class="close-btn" id="close-booking-modal">&times;</span>
+      </div>
+      <form id="update-milestone-form">
+        <input type="hidden" id="booking-db-id">
+        <div class="modal-body">
+          <div class="milestone-visual-stepper">
+            <div class="step" data-step="Booked">
+              <div class="circle"><i class="fa-solid fa-receipt"></i></div>
+              <span>Booked</span>
+            </div>
+            <div class="step" data-step="Received at Warehouse">
+              <div class="circle"><i class="fa-solid fa-warehouse"></i></div>
+              <span>In Warehouse</span>
+            </div>
+            <div class="step" data-step="Customs Cleared">
+              <div class="circle"><i class="fa-solid fa-passport"></i></div>
+              <span>Customs Ok</span>
+            </div>
+            <div class="step" data-step="Departed">
+              <div class="circle"><i class="fa-solid fa-plane-departure"></i></div>
+              <span>Departed</span>
+            </div>
+            <div class="step" data-step="Arrived">
+              <div class="circle"><i class="fa-solid fa-plane-arrival"></i></div>
+              <span>Arrived</span>
+            </div>
+            <div class="step" data-step="Out for Delivery">
+              <div class="circle"><i class="fa-solid fa-truck"></i></div>
+              <span>Out for Del.</span>
+            </div>
+            <div class="step" data-step="Delivered">
+              <div class="circle"><i class="fa-solid fa-circle-check"></i></div>
+              <span>Delivered</span>
+            </div>
+          </div>
+
+          <div class="form-group margin-top-lg">
+            <label for="tracking-status-select">Transition Tracking Status:</label>
+            <select id="tracking-status-select" class="form-control" required>
+              <option value="Booked">Booked - Awaiting Arrival at Warehouse</option>
+              <option value="Received at Warehouse">Received at Warehouse - Cargo Allocated to Bin</option>
+              <option value="Customs Cleared">Customs Cleared - Export Declarations Checked</option>
+              <option value="Departed">Departed - Flight in Transit</option>
+              <option value="Arrived">Arrived - Destination Airport Handover</option>
+              <option value="Out for Delivery">Out for Delivery - Agent Dispatch</option>
+              <option value="Delivered">Delivered - POD Signed</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="tracking-location">Current Station Location:</label>
+            <input type="text" id="tracking-location" class="form-control" placeholder="e.g. London Heathrow (LHR)" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="tracking-carrier">Airline Flight Carrier:</label>
+              <input type="text" id="tracking-carrier" class="form-control" required>
+            </div>
+            <div class="form-group col-6">
+              <label for="tracking-flight">Flight Number:</label>
+              <input type="text" id="tracking-flight" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="tracking-comment">Operations Log / Transition Note:</label>
+            <input type="text" id="tracking-comment" class="form-control" placeholder="e.g. Temperature logs downloaded, all cartons secured.">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="cancel-booking-modal-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="save-milestone-btn">Update Milestone</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: VIEW INVOICE & PAYMENT LAYOUT -->
+  <div class="modal" id="invoice-modal">
+    <div class="modal-content modal-md">
+      <div class="modal-header">
+        <h3>Commercial Air Freight Invoice</h3>
+        <span class="close-btn" id="close-invoice-modal">&times;</span>
+      </div>
+      <div class="modal-body printable-invoice-area" id="invoice-bill-area">
+        <!-- Structured printable-style invoice sheet -->
+        <div class="invoice-box">
+          <div class="invoice-title-row">
+            <div class="brand">
+              <h3>ORBEM SOLUTIONS PRIVATE LIMITED</h3>
+              <p>Logistics, Warehousing & Customs Clearing</p>
+            </div>
+            <div class="inv-meta">
+              <h4>INVOICE</h4>
+              <p>Number: <strong id="inv-bill-num">-</strong></p>
+              <p>Date: <span id="inv-bill-date">-</span></p>
+            </div>
+          </div>
+          
+          <div class="invoice-split">
+            <div class="bill-to">
+              <h5>BILL TO:</h5>
+              <p><strong id="inv-bill-client">-</strong></p>
+              <p>Logistics Exporter Account</p>
+            </div>
+            <div class="ship-details">
+              <h5>SHIPMENT DETAILS:</h5>
+              <p>AWB: <strong id="inv-bill-awb">-</strong></p>
+              <p>Route: <span id="inv-bill-route">-</span></p>
+              <p>Urgency Level: <span id="inv-bill-urgency">-</span></p>
+            </div>
+          </div>
+
+          <table class="invoice-items-table">
+            <thead>
+              <tr>
+                <th>Cargo Item Description</th>
+                <th class="text-right">Chargeable Weight</th>
+                <th class="text-right">Base Price</th>
+                <th class="text-right">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Air Freight Charges (Route Slab Fee)</td>
+                <td class="text-right"><span id="inv-item-weight">-</span> kg</td>
+                <td class="text-right">$<span id="inv-item-rate">-</span>/kg</td>
+                <td class="text-right">$<span id="inv-item-base-cost">-</span></td>
+              </tr>
+              <tr>
+                <td>Urgency Surcharge (Priority Flight Booking)</td>
+                <td class="text-right">-</td>
+                <td class="text-right">-</td>
+                <td class="text-right">$<span id="inv-item-urgency-surcharge">-</span></td>
+              </tr>
+              <tr>
+                <td>IATA Airport Handling / Dangerous Goods Clearance Fee</td>
+                <td class="text-right">-</td>
+                <td class="text-right">-</td>
+                <td class="text-right">$<span id="inv-item-handling">-</span></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th colspan="3" class="text-right">Total Cost:</th>
+                <th class="text-right">$<span id="inv-total-sum">-</span></th>
+              </tr>
+              <tr>
+                <th colspan="3" class="text-right">Total Paid:</th>
+                <th class="text-right">$<span id="inv-paid-sum">-</span></th>
+              </tr>
+              <tr class="balance-due-row">
+                <th colspan="3" class="text-right">Balance Due (USD):</th>
+                <th class="text-right">$<span id="inv-balance-sum">-</span></th>
+              </tr>
+            </tfoot>
+          </table>
+          
+          <div class="invoice-footer">
+            <p>Note: Balance is due within 14 days. Pay via wire transfer or logistics agent account.</p>
+            <p>Due Date: <strong id="inv-bill-due">-</strong></p>
+          </div>
+        </div>
+
+        <!-- Payment Input form (Visible for accounts) -->
+        <div class="payment-action-block margin-top-md" id="accounts-payment-box">
+          <div class="divider">Record Exporter Wire Payment</div>
+          <form id="record-payment-form">
+            <input type="hidden" id="payment-invoice-id">
+            <div class="form-row">
+              <div class="form-group col-4">
+                <label for="pay-amount">Amount ($):</label>
+                <input type="number" step="0.01" id="pay-amount" class="form-control" required>
+              </div>
+              <div class="form-group col-8">
+                <label for="pay-ref">Wire Transaction Reference Number:</label>
+                <input type="text" id="pay-ref" class="form-control" placeholder="e.g. TXN-HDFC-9928122" required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success btn-block">Record Wire Transaction</button>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer flex-footer">
+        <button class="btn btn-outline" id="print-invoice-btn"><i class="fa-solid fa-print"></i> Print Invoice</button>
+        <button class="btn btn-secondary" id="close-inv-modal-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Application -->
+  <script src="js/app.js"></script>
+</body>
+</html>
