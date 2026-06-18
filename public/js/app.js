@@ -93,7 +93,42 @@ async function initApp() {
 function setupEventListeners() {
   // Role Selector
   dom.roleSelect.addEventListener('change', (e) => {
-    setRole(e.target.value);
+    const selectedRole = e.target.value;
+    const previousRole = state.activeRole;
+    
+    if (selectedRole === previousRole) return;
+    
+    const pwKey = 'pw_' + selectedRole;
+    let savedPw = localStorage.getItem(pwKey);
+    
+    if (!savedPw) {
+      // If no password exists, ask to create one
+      const newPw = prompt(`Create a password to secure the "${selectedRole}" role:`);
+      if (newPw === null || newPw.trim() === '') {
+        alert('Password creation cancelled. Reverting role.');
+        dom.roleSelect.value = previousRole;
+        return;
+      }
+      localStorage.setItem(pwKey, newPw.trim());
+      alert(`Password successfully set for "${selectedRole}"!`);
+      
+      setRole(selectedRole);
+      autoNavigateForRole(selectedRole);
+    } else {
+      // If password exists, prompt to enter it
+      const enteredPw = prompt(`Enter password for "${selectedRole}" role:`);
+      if (enteredPw === null) {
+        dom.roleSelect.value = previousRole;
+        return;
+      }
+      if (enteredPw.trim() === savedPw) {
+        setRole(selectedRole);
+        autoNavigateForRole(selectedRole);
+      } else {
+        alert('Incorrect password! Reverting role.');
+        dom.roleSelect.value = previousRole;
+      }
+    }
   });
 
   // Tab switcher
@@ -198,6 +233,20 @@ function setRole(role) {
 
   // Refresh current view immediately with appropriate permissions
   refreshData(state.activeTab);
+}
+
+// Helper to automatically route roles to their specific tabs
+function autoNavigateForRole(role) {
+  const roleTabMapping = {
+    Customer: 'quotations',
+    Admin: 'dashboard',
+    Operations: 'bookings',
+    Warehouse: 'warehouse',
+    Accounts: 'billing',
+    Agent: 'pickup'
+  };
+  const targetTab = roleTabMapping[role] || 'dashboard';
+  navigateTo(targetTab);
 }
 
 // ----------------------------------------------------
